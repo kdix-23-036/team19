@@ -1,8 +1,3 @@
-<style>
-img {
-  max-width: 250px !important;
-}
-</style>
 
 # 音声対話システム シナリオ作成レポート
 
