@@ -20,7 +20,7 @@
 
 ##　シナリオの作成
 
-###　シナリオ分析
+### シナリオ分析
 
 #### シナリオの収集
 1. 店舗検索か商品棚検索かをユーザに問うパターン
@@ -212,15 +212,20 @@
 
 ## 対話フローのテスト
 
-<森松>
 ### フローの設計
 
 
 
-### intents
-
+### Intents
+|Intent|Slots|
+|:---|:---|
+|goods|foods<br>appliance<br>daily_necessities|
+|response|yes<br>no|
+|shops|donkihote<br>seveneleven<br>seijoisi<br>gyomusupa<br>depatika|
+|target|price<br>quality<br>Costperformance|
 
 ### Entities
+今回は利用しなかった
 
 ## 対話フローのテスト
 
