@@ -235,7 +235,7 @@ shop-suggestion(~8)ノードが「この店舗で良いですか？」という�
 
 response-judge(~8)ノードが受け取った値がSlotsの「yes」に適合した時、place-search(~8)に遷移する。また、「no」に適合した時、target-search(~2)ノードに遷移する（戻る）。
 
-place-search(~8)ノードが「商品棚検索を行いますか?」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、response-judge(9~17)ノードに遷移する。
+place-search(~ 8)ノードが「商品棚検索を行いますか?」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、response-judge(9 ~17)ノードに遷移する。
 
 response-judge(9~17)ノードが受け取った値がSlotsの「yes」に適合した時、good-place(~8)ノードに遷移する。また、「no」に適合した時、endgreed(~8)ノードに遷移する。
 
@@ -245,7 +245,7 @@ shop-question(~2)ノードが「どこのお店に向かいますか？」とい
 
 shop-question-judge(~2)ノードが受け取った値がSlotsの「donkihote」「seveneleven」「seijoisi」「gyomusupa」「depatika」に適合した時、それぞれ対応するshop-question-answer(~14)ノードに遷移する。
 
-shop-question-answer(~14)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(9~11)ノードに遷移する。
+shop-question-answer(~ 14)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(9 ~ 11)ノードに遷移する。
 
 endgreed(~11)ノードは「ご利用ありがとうございました。」という文章を出力し、フローを終了する。
 
