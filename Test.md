@@ -212,12 +212,49 @@
 ## 対話フローの作成
 
 ### フローの設計
+＜大体の流れを示したフローチャート＞
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/611e96dc-e901-44fd-a827-7b048275b7fe" />
+
+＜個々のノードの設定値＞
+
+entryノードが「何をお求めですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「goods」に適合した時、goods-judgeノードに遷移する。
+
+goods-judgeノードが受け取った値がSlotsの「foods」「appliance」「daily necessities」に適応した時、それぞれに応じたノードshops-search(~2)に遷移する。
+
+shops-search(~2)ノードが「店舗の検索を行いますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、shops-judge(~2)に遷移する。
+
+shops-judge(~2)ノードが受け取った値がSlotsの「yes」に適合した時、target-search(~2)に遷移する。また、「no」に適合した時、shop-question(~2)ノードに遷移する。
+
+target-search(~2)ノードが「どのような条件でソートしますか？」という文章の後に「1,安さ」「2,品質」「3,コスパ」と発言し、ユーザ返事を待つ。ユーザの返事で入力された値がIntentの「target」に適合した時、target-judge(~2)に遷移する。
+
+target-judge(~2)ノードが受け取った値がSlotsの「price」「quality」「Costperformance」に適合した時、それぞれ対応するshop-name(~8)ノードに遷移する。
+
+shop-name(~8)ノードがそれぞれの店舗名を表示した後、それぞれ対応したshop-suggestion(~8)ノードに遷移する。
+
+shop-suggestion(~8)ノードが「この店舗で良いですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、それぞれ対応したresponse-judge(~8)ノードに遷移する。
+
+response-judge(~8)ノードが受け取った値がSlotsの「yes」に適合した時、place-search(~8)に遷移する。また、「no」に適合した時、target-search(~2)ノードに遷移する（戻る）。
+
+place-search(~8)ノードが「商品棚検索を行いますか?」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、response-judge(9~17)ノードに遷移する。
+
+response-judge(9~17)ノードが受け取った値がSlotsの「yes」に適合した時、good-place(~8)ノードに遷移する。また、「no」に適合した時、endgreed(~8)ノードに遷移する。
+
+good-place(~8)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(~8)ノードに遷移する。
+
+shop-question(~2)ノードが「どこのお店に向かいますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「shops」に適合した時、shop-question-judge(~2)ノードに遷移する。
+
+shop-question-judge(~2)ノードが受け取った値がSlotsの「donkihote」「seveneleven」「seijoisi」「gyomusupa」「depatika」に適合した時、それぞれ対応するshop-question-answer(~14)ノードに遷移する。
+
+shop-question-answer(~14)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(9~11)ノードに遷移する。
+
+endgreed(~11)ノードは「ご利用ありがとうございました。」という文章を出力し、フローを終了する。
+
 
 ### Intents
 |Intent|Slots|
 |:---|:---|
 |goods|foods<br>appliance<br>daily_necessities|
-|response|yes<br>no|
+|respons|yes<br>no|
 |shops|donkihote<br>seveneleven<br>seijoisi<br>gyomusupa<br>depatika|
 |target|price<br>quality<br>Costperformance|
 
