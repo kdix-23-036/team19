@@ -1,7 +1,7 @@
 # 最終レポート
 
 #### 19班
-##### 1月 日提出
+##### 1月 21日提出
 ## はじめに
 本レポートでは、スーパーなどで店員の代わりに商品を検索、または店舗自体を検索するシステムの開発について述べる。本システムでは、音声入力によって安さ、品質、コスパの何を重視するかの情報を認識し、対話の最終段階で一番希望にあった店舗と商品の位置を返す機能を実装することを目的とする。
 また設計した対話システムに対し、他者によるシステムテストを実施し、想定どうりに情報種等ができるか検証を行う。
@@ -212,42 +212,65 @@
 ## 対話フローの作成
 
 ### フローの設計
-＜大体の流れを示したフローチャート＞
+##### ＜全体の流れを示したフローチャート＞
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/611e96dc-e901-44fd-a827-7b048275b7fe" />
 
-＜個々のノードの設定値＞
+##### ＜フローのスクリーンショット＞
+entryノードからshops-judgeノードまで
+<img width="835" height="620" alt="スクリーンショット 2026-01-21 6 42 02" src="https://github.com/user-attachments/assets/a6ab5464-0f5b-4be2-9de4-ef2764ac0ed8" />
 
-entryノードが「何をお求めですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「goods」に適合した時、goods-judgeノードに遷移する。
+target-searchノードからendgreed(~2)ノードまで
+<img width="1127" height="515" alt="スクリーンショット 2026-01-21 6 46 59" src="https://github.com/user-attachments/assets/b6f47940-af20-4b4a-bed2-05f827acd969" />
 
-goods-judgeノードが受け取った値がSlotsの「foods」「appliance」「daily necessities」に適応した時、それぞれに応じたノードshops-search(~2)に遷移する。
+target-search1ノードからendgreed(~5)ノードまで
+<img width="1129" height="586" alt="スクリーンショット 2026-01-21 6 52 35" src="https://github.com/user-attachments/assets/bbd6ad13-206c-488a-9d8b-df6d5ebe35ec" />
 
-shops-search(~2)ノードが「店舗の検索を行いますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、shops-judge(~2)に遷移する。
+target-search2ノードからendgreed(~8)ノードまで
+<img width="1137" height="618" alt="スクリーンショット 2026-01-21 6 56 16" src="https://github.com/user-attachments/assets/b9defc5f-f2cc-4630-aa1e-9517f8383a82" />
 
-shops-judge(~2)ノードが受け取った値がSlotsの「yes」に適合した時、target-search(~2)に遷移する。また、「no」に適合した時、shop-question(~2)ノードに遷移する。
+shop-questionノードからendgreed9ノードまで
+<img width="948" height="505" alt="スクリーンショット 2026-01-21 6 57 13" src="https://github.com/user-attachments/assets/90e6fc64-f054-454a-a13d-d3139a463ebe" />
 
-target-search(~2)ノードが「どのような条件でソートしますか？」という文章の後に「1,安さ」「2,品質」「3,コスパ」と発言し、ユーザ返事を待つ。ユーザの返事で入力された値がIntentの「target」に適合した時、target-judge(~2)に遷移する。
+shop-question1ノードからendgreed10ノードまで
+<img width="1044" height="564" alt="スクリーンショット 2026-01-21 6 57 38" src="https://github.com/user-attachments/assets/46274120-e61c-4224-8a4e-6474a304ee16" />
 
-target-judge(~2)ノードが受け取った値がSlotsの「price」「quality」「Costperformance」に適合した時、それぞれ対応するshop-name(~8)ノードに遷移する。
+shop-question2ノードからendgreed11ノードまで
+<img width="1061" height="588" alt="スクリーンショット 2026-01-21 6 57 52" src="https://github.com/user-attachments/assets/8de6c7ea-3705-48ac-abf0-48c68724e58d" />
 
-shop-name(~8)ノードがそれぞれの店舗名を表示した後、それぞれ対応したshop-suggestion(~8)ノードに遷移する。
 
-shop-suggestion(~8)ノードが「この店舗で良いですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、それぞれ対応したresponse-judge(~8)ノードに遷移する。
+##### ＜個々のノードの設定値＞
 
-response-judge(~8)ノードが受け取った値がSlotsの「yes」に適合した時、place-search(~8)に遷移する。また、「no」に適合した時、target-search(~2)ノードに遷移する（戻る）。
+・entryノードが「何をお求めですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「goods」に適合した時、goods-judgeノードに遷移する。
 
-place-search(~ 8)ノードが「商品棚検索を行いますか?」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、response-judge(9 ~17)ノードに遷移する。
+・goods-judgeノードが受け取った値がSlotsの「foods」「appliance」「daily necessities」に適応した時、それぞれに応じたノードshops-search(~2)に遷移する。
 
-response-judge(9~17)ノードが受け取った値がSlotsの「yes」に適合した時、good-place(~8)ノードに遷移する。また、「no」に適合した時、endgreed(~8)ノードに遷移する。
+・shops-search(~2)ノードが「店舗の検索を行いますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、shops-judge(~2)に遷移する。
 
-good-place(~8)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(~8)ノードに遷移する。
+・shops-judge(~2)ノードが受け取った値がSlotsの「yes」に適合した時、target-search(~2)に遷移する。また、「no」に適合した時、shop-question(~2)ノードに遷移する。
 
-shop-question(~2)ノードが「どこのお店に向かいますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「shops」に適合した時、shop-question-judge(~2)ノードに遷移する。
+・target-search(~2)ノードが「どのような条件でソートしますか？」という文章の後に「1,安さ」「2,品質」「3,コスパ」と発言し、ユーザ返事を待つ。ユーザの返事で入力された値がIntentの「target」に適合した時、target-judge(~2)に遷移する。
 
-shop-question-judge(~2)ノードが受け取った値がSlotsの「donkihote」「seveneleven」「seijoisi」「gyomusupa」「depatika」に適合した時、それぞれ対応するshop-question-answer(~14)ノードに遷移する。
+・target-judge(~2)ノードが受け取った値がSlotsの「price」「quality」「Costperformance」に適合した時、それぞれ対応するshop-name(~8)ノードに遷移する。
 
-shop-question-answer(~ 14)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(9 ~ 11)ノードに遷移する。
+・shop-name(~8)ノードがそれぞれの店舗名を表示した後、それぞれ対応したshop-suggestion(~8)ノードに遷移する。
 
-endgreed(~11)ノードは「ご利用ありがとうございました。」という文章を出力し、フローを終了する。
+・shop-suggestion(~8)ノードが「この店舗で良いですか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、それぞれ対応したresponse-judge(~8)ノードに遷移する。
+
+・response-judge(~8)ノードが受け取った値がSlotsの「yes」に適合した時、place-search(~8)に遷移する。また、「no」に適合した時、target-search(~2)ノードに遷移する（戻る）。
+
+・place-search(~ 8)ノードが「商品棚検索を行いますか?」という文章の後にユーザの返事を受け取り、入力された値がIntentの「respons」に適合した時、response-judge(9 ~17)ノードに遷移する。
+
+・response-judge(9~17)ノードが受け取った値がSlotsの「yes」に適合した時、good-place(~8)ノードに遷移する。また、「no」に適合した時、endgreed(~8)ノードに遷移する。
+
+・good-place(~8)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(~8)ノードに遷移する。
+
+・shop-question(~2)ノードが「どこのお店に向かいますか？」という文章の後にユーザの返事を受け取り、入力された値がIntentの「shops」に適合した時、shop-question-judge(~2)ノードに遷移する。
+
+・shop-question-judge(~2)ノードが受け取った値がSlotsの「donkihote」「seveneleven」「seijoisi」「gyomusupa」「depatika」に適合した時、それぞれ対応するshop-question-answer(~14)ノードに遷移する。
+
+・shop-question-answer(~ 14)ノードが「〇〇番の棚にございます。」という文章を出力し、endgreed(9 ~ 11)ノードに遷移する。
+
+・endgreed(~11)ノードは「ご利用ありがとうございました。」という文章を出力し、フローを終了する。
 
 
 ### Intents
