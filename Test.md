@@ -212,7 +212,7 @@
 ## 対話フローの作成
 
 ### フローの設計
-##### ＜大体の流れを示したフローチャート＞
+##### ＜全体の流れを示したフローチャート＞
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/611e96dc-e901-44fd-a827-7b048275b7fe" />
 
 ##### ＜フローのスクリーンショット＞
